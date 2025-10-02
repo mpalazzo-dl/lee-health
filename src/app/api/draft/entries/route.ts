@@ -7,15 +7,10 @@ export async function GET(request: Request) {
   const draft = await draftMode();
 
   const { searchParams } = new URL(request.url);
-  const secret = searchParams.get("secret");
   const id = searchParams.get("id");
   const locale = searchParams.get("locale");
 
-  if (secret !== process.env.NEXT_PUBLIC_CF_PREVIEW_SECRET || !id) {
-    return new Response(
-      `${secret}, ${process.env.NEXT_PUBLIC_CF_PREVIEW_SECRET}, ${id}`,
-      { status: 401 },
-    );
+  if (!id) {
     return new Response("Invalid token", { status: 401 });
   }
 

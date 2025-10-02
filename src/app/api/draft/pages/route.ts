@@ -51,11 +51,10 @@ export async function GET(request: Request) {
   const draft = await draftMode();
 
   const { searchParams } = new URL(request.url);
-  const secret = searchParams.get("secret");
   const slug = searchParams.get("slug");
   const locale = searchParams.get("locale");
 
-  if (secret !== process.env.NEXT_PUBLIC_CF_PREVIEW_SECRET || !slug) {
+  if (!slug) {
     return new Response("Invalid token", { status: 401 });
   }
 

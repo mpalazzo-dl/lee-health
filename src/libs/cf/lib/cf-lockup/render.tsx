@@ -227,7 +227,7 @@ export const CfLockup = ({
                 }
                 width="100%"
               >
-                {media.__typename === "Image" && isCfImage(media) && (
+                {media && media.__typename === "Image" && isCfImage(media) && (
                   <CfImage
                     internalTitle={media.internalTitle}
                     image={media.image}
@@ -239,17 +239,19 @@ export const CfLockup = ({
                     preview={preview}
                   />
                 )}
-                {media.__typename === "VideoEmbed" && isCfVideoEmbed(media) && (
-                  <CfVideoEmbed
-                    internalTitle={media.internalTitle}
-                    embedCode={media.embedCode}
-                    nested={nested}
-                    __typename={media.__typename}
-                    id={media?.sys?.id || ""}
-                    lang={lang}
-                    preview={preview}
-                  />
-                )}
+                {media &&
+                  media.__typename === "VideoEmbed" &&
+                  isCfVideoEmbed(media) && (
+                    <CfVideoEmbed
+                      internalTitle={media.internalTitle}
+                      embedCode={media.embedCode}
+                      nested={nested}
+                      __typename={media.__typename}
+                      id={media?.sys?.id || ""}
+                      lang={lang}
+                      preview={preview}
+                    />
+                  )}
               </Box>
             ) : (
               <>{mockData}</>

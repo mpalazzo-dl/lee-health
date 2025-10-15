@@ -1,5 +1,4 @@
 import React from "react";
-import Script from "next/script";
 import { draftMode } from "next/headers";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
@@ -35,18 +34,10 @@ export default async function RootLayout({
   const { isEnabled } = await draftMode();
   const appId = process.env.NEXT_PUBLIC_CF_APP_ID || "";
   const gtmId = process.env.NEXT_PUBLIC_CF_GTM_ID || "";
-  const cookieyesId = process.env.NEXT_PUBLIC_COOKIEYES_ID || "";
 
   return (
     <html lang={lang}>
       {gtmId && <GoogleTagManager gtmId={gtmId} />}
-      {cookieyesId && (
-        <Script
-          id="cookieyes"
-          type="text/javascript"
-          src={`https://cdn-cookieyes.com/client_data/${cookieyesId}/script.js`}
-        />
-      )}
       <body style={{ backgroundColor: palette.background.default }}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
@@ -63,7 +54,7 @@ export default async function RootLayout({
             {isEnabled && <DraftModeBar />}
           </ThemeProvider>
         </AppRouterCacheProvider>
-        {isEnabled && <Script src={`/scripts/${lang}.mjs`} />}
+        {/* {isEnabled && <Script src={`/scripts/${lang}.mjs`} />} */}
       </body>
     </html>
   );

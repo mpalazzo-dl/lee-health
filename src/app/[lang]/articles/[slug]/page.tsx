@@ -38,6 +38,8 @@ export async function generateMetadata({
     notFound();
   }
 
+  if (!pageResponse.seo) return {};
+
   return await buildMetadata(pageResponse.seo, {});
 }
 
@@ -53,7 +55,7 @@ export default async function ArticlePage({
 
   const t = await getLocale(lang, "common");
   const pageResponse = await fetchArticlePageData(slug, isEnabled, lang);
-  const readTime = estimateReadTime(pageResponse.bodyCopy.json);
+  const readTime = estimateReadTime(pageResponse.bodyCopy?.json || null);
 
   if (!pageResponse || !EnableArticles) {
     notFound();
@@ -71,15 +73,17 @@ export default async function ArticlePage({
           }}
           lang={lang}
         />
-        <CfImageCoverServer
-          id={pageResponse.featuredImage.sys.id}
-          lang={lang}
-          preview={isEnabled}
-          borderRadius={shape.borderRadius}
-          coverWidth="100%"
-          coverHeight={{ xs: "320px", md: "580px" }}
-          nested={true}
-        />
+        {pageResponse.featuredImage && (
+          <CfImageCoverServer
+            id={pageResponse.featuredImage.sys.id}
+            lang={lang}
+            preview={isEnabled}
+            borderRadius={shape.borderRadius}
+            coverWidth="100%"
+            coverHeight={{ xs: "320px", md: "580px" }}
+            nested={true}
+          />
+        )}
         <FlexBox flexDirection={{ xs: "column", lg: "row" }}>
           <FlexBox
             flexDirection="column"
@@ -158,7 +162,7 @@ export default async function ArticlePage({
             <Box marginY={8}>
               {pageResponse.bodyCopy && (
                 <CfRichTextRender
-                  richTextDocument={pageResponse.bodyCopy.json}
+                  richTextDocument={pageResponse.bodyCopy.json || {}}
                   preview={isEnabled}
                   lang={lang}
                   {...ContentfulLivePreview.getProps({

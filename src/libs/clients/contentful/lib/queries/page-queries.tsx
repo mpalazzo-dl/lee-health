@@ -36,22 +36,12 @@ export const DefaultPageBodyQuery = gql`
               id
             }
           }
-          ... on Form {
-            sys {
-              id
-            }
-          }
           ... on Header {
             sys {
               id
             }
           }
           ... on Image {
-            sys {
-              id
-            }
-          }
-          ... on GridUpdated {
             sys {
               id
             }
@@ -66,32 +56,22 @@ export const DefaultPageBodyQuery = gql`
               id
             }
           }
-          ... on VideoEmbed {
-            sys {
-              id
-            }
-          }
-          ... on Testimonials {
-            sys {
-              id
-            }
-          }
-          ... on TeamListing {
-            sys {
-              id
-            }
-          }
           ... on Callout {
             sys {
               id
             }
           }
-          ... on FeatureHighlight {
+          ... on ListItem {
             sys {
               id
             }
           }
-          ... on ListItem {
+          ... on GridUpdated {
+            sys {
+              id
+            }
+          }
+          ... on FeatureHighlight {
             sys {
               id
             }
@@ -108,11 +88,6 @@ export const DefaultPageHeroQuery = gql`
     page(id: $id, preview: $preview, locale: $locale) {
       pageHero {
         ... on ImageOverlayHero {
-          sys {
-            id
-          }
-        }
-        ... on DefaultHero {
           sys {
             id
           }

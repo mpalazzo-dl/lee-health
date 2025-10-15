@@ -4,7 +4,7 @@ import { CfBaseComponent, CfImageProps, CfRichText } from "@aces/types";
 import { generateId } from "@aces/utils";
 import { componentSpacing } from "@aces/theme";
 import { Box, Col, Container, FlexBox, H2, H3, Row } from "@aces/ui";
-import { CfImage, CfRichTextRender } from "@aces/cf";
+import { CfImage, CfRichTextRender, CfRichTextRenderClient } from "@aces/cf";
 
 export interface CfFeatureHighlightProps extends CfBaseComponent {
   headline: string;
@@ -36,17 +36,19 @@ export const CfFeatureHighlight = ({
         >
           <Col size={{ xs: 12, md: 6, lg: 3 }}>
             <FlexBox>
-              <CfImage
-                __typename={media.__typename}
-                id={media.id}
-                image={media.image}
-                altText={media.altText}
-                internalTitle={media.internalTitle}
-                lang={lang}
-                preview={preview}
-                nested
-                style={{ borderRadius: "6.25px" }}
-              />
+              {media && (
+                <CfImage
+                  __typename={media.__typename}
+                  id={media.id}
+                  image={media.image}
+                  altText={media.altText}
+                  internalTitle={media.internalTitle}
+                  lang={lang}
+                  preview={preview}
+                  nested
+                  style={{ borderRadius: "6.25px" }}
+                />
+              )}
             </FlexBox>
           </Col>
           <Col size={{ xs: 12, md: 6, lg: 9 }}>
@@ -67,16 +69,30 @@ export const CfFeatureHighlight = ({
               </Col>
               <Col size={{ xs: 12, lg: 7 }}>
                 <FlexBox>
-                  <CfRichTextRender
-                    lang={lang}
-                    preview={preview}
-                    richTextDocument={bodyCopy.json}
-                    {...ContentfulLivePreview.getProps({
-                      entryId: id,
-                      fieldId: "bodyCopy",
-                      locale: lang,
-                    })}
-                  />
+                  {bodyCopy && !preview && (
+                    <CfRichTextRender
+                      lang={lang}
+                      preview={preview}
+                      richTextDocument={bodyCopy.json}
+                      {...ContentfulLivePreview.getProps({
+                        entryId: id,
+                        fieldId: "bodyCopy",
+                        locale: lang,
+                      })}
+                    />
+                  )}
+                  {bodyCopy && preview && (
+                    <CfRichTextRenderClient
+                      lang={lang}
+                      preview={preview}
+                      richTextDocument={bodyCopy.json}
+                      {...ContentfulLivePreview.getProps({
+                        entryId: id,
+                        fieldId: "bodyCopy",
+                        locale: lang,
+                      })}
+                    />
+                  )}
                 </FlexBox>
               </Col>
             </Row>

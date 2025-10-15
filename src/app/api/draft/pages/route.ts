@@ -84,11 +84,11 @@ export async function GET(request: Request) {
   const parentPage = pageData.parentPage;
   const specialtyPage = pageData.specialtyPage;
 
-  specialtyPageRedirect(specialtyPage);
+  specialtyPageRedirect(specialtyPage, locale);
 
   if (parentPage) {
-    redirect(`/${parentPage.slug}/${slug}`);
+    redirect(`/${locale}/${parentPage.slug}/${slug}`);
   }
 
-  redirect(`/${slug}`);
+  redirect(`/${locale}/${slug}`);
 }

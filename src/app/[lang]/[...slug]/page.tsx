@@ -12,6 +12,8 @@ import {
   DefaultPageHero,
 } from "@aces/features";
 
+import PagePreviewClient from "../_components/page-preview-client";
+
 export async function generateMetadata({
   params,
 }: {
@@ -29,6 +31,8 @@ export async function generateMetadata({
     notFound();
   }
 
+  if (!pageResponse.seo) return {};
+
   return await buildMetadata(pageResponse.seo, {});
 }
 
@@ -38,9 +42,9 @@ export default async function Page({
   params: Promise<CatchAllPageProps>;
 }) {
   const resolvedParams = await Promise.resolve(params);
+  const { lang = defaultLocale, slug } = resolvedParams;
 
   const { isEnabled } = await draftMode();
-  const { lang = defaultLocale, slug } = resolvedParams;
 
   const pageData = await fetchPageData(sliceSlug(slug), isEnabled, lang);
   const pageResponse = pageData.pageResponse.data.pageCollection.items[0];
@@ -54,6 +58,10 @@ export default async function Page({
     pageData.pageBodyResponse.data.page.pageBodyCollection.items;
 
   specialtyPageRedirect(pageResponse.specialtyPage);
+
+  if (isEnabled) {
+    return <PagePreviewClient slug={slug.at(-1) as string} />;
+  }
 
   return (
     <>

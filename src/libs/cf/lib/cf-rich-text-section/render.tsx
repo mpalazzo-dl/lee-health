@@ -13,7 +13,7 @@ import {
 import { generateId } from "@aces/utils";
 import { componentSpacing, palette } from "@aces/theme";
 import { Box, Container, FlexBox } from "@aces/ui";
-import { CfRichTextRender } from "@aces/cf";
+import { CfRichTextRender, CfRichTextRenderClient } from "@aces/cf";
 
 export interface CfRichTextSectionProps
   extends CfBaseComponent,
@@ -83,21 +83,44 @@ export const CfRichTextSection = ({
           flexDirection="column"
           marginX={"auto"}
         >
-          <CfRichTextRender
-            richTextDocument={bodyCopy.json}
-            alignment={alignment}
-            lang={lang}
-            preview={preview}
-            enableMaxTextWidth
-            color={
-              hasBackgroundColor ? forgroundColors[backgroundColor] : "inherit"
-            }
-            {...ContentfulLivePreview.getProps({
-              entryId: id,
-              fieldId: "bodyCopy",
-              locale: lang,
-            })}
-          />
+          {bodyCopy && !preview && (
+            <CfRichTextRender
+              richTextDocument={bodyCopy.json}
+              alignment={alignment}
+              lang={lang}
+              preview={preview}
+              enableMaxTextWidth
+              color={
+                hasBackgroundColor
+                  ? forgroundColors[backgroundColor]
+                  : "inherit"
+              }
+              {...ContentfulLivePreview.getProps({
+                entryId: id,
+                fieldId: "bodyCopy",
+                locale: lang,
+              })}
+            />
+          )}
+          {bodyCopy && preview && (
+            <CfRichTextRenderClient
+              richTextDocument={bodyCopy.json}
+              alignment={alignment}
+              lang={lang}
+              preview={preview}
+              enableMaxTextWidth
+              color={
+                hasBackgroundColor
+                  ? forgroundColors[backgroundColor]
+                  : "inherit"
+              }
+              {...ContentfulLivePreview.getProps({
+                entryId: id,
+                fieldId: "bodyCopy",
+                locale: lang,
+              })}
+            />
+          )}
         </FlexBox>
       </Container>
     </Box>

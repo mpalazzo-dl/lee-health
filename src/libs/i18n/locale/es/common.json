@@ -1,0 +1,55 @@
+{
+  "by": "Por",
+  "clear": "Limpiar",
+  "contact": "Contacto",
+  "followUs": "Síguenos",
+  "learnMore": "Aprende Más",
+  "back": "Volver",
+  "breadcrumbs": {
+    "home": "Inicio",
+    "articles": "Noticias y PR",
+    "search": "Buscar"
+  },
+  "postType": {
+    "order": {
+      "category": "Categoría",
+      "date": "Fecha",
+      "order": "Orden",
+      "title": "Título"
+    },
+    "listingDisplay": {
+      "list": "Lista",
+      "grid": "Cuadrícula"
+    },
+    "allCategories": "Todas",
+    "relatedArticlesTitle": "También te puede interesar",
+    "backToArticleListing": "Volver a Noticias y PR",
+    "listingTitle": "Publicaciones de Noticias",
+    "read": "leer",
+    "min": "min",
+    "noResults": "No se encontraron artículos."
+  },
+  "pagination": {
+    "loadMore": "Cargar más",
+    "youViewed": "Has visto",
+    "of": "de",
+    "posts": "publicaciones"
+  },
+  "readMore": "Leer más",
+  "search": {
+    "searchbarPlaceholder": "Buscar",
+    "searchError": "Error al cargar los resultados de búsqueda:",
+    "resultsFor": "Resultados para",
+    "topResultsHeader": "Mejores resultados",
+    "noResults": "No se encontraron resultados"
+  },
+  "forms": {
+    "thankYou": {
+      "thanks": "¡Gracias por tu envío!",
+      "downloadStarted": "Descarga iniciada",
+      "ifNotStarted": "Si tu descarga no ha comenzado",
+      "clickHere": "haz clic aquí",
+      "backHome": "Volver al Inicio"
+    }
+  }
+}

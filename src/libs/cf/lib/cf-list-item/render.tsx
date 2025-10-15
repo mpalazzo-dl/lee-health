@@ -4,7 +4,11 @@ import { CfBaseComponent, CfImageProps, CfRichText } from "@aces/types";
 import { generateId } from "@aces/utils";
 import { palette, shape } from "@aces/theme";
 import { Box, Col, Container, FlexBox, H5, Row } from "@aces/ui";
-import { CfImageCover, CfRichTextRender } from "@aces/cf";
+import {
+  CfImageCover,
+  CfRichTextRender,
+  CfRichTextRenderClient,
+} from "@aces/cf";
 
 export interface CfListItemProps extends CfBaseComponent {
   headline: string;
@@ -50,17 +54,44 @@ export const CfListItem = ({
                 >
                   {headline}
                 </H5>
-                <CfRichTextRender
-                  lang={lang}
-                  preview={preview}
-                  richTextDocument={bodyCopy.json}
-                  {...ContentfulLivePreview.getProps({
-                    entryId: id,
-                    fieldId: "bodyCopy",
-                    locale: lang,
-                  })}
-                />
-                {listCopy && (
+                {bodyCopy && !preview && (
+                  <CfRichTextRender
+                    lang={lang}
+                    preview={preview}
+                    richTextDocument={bodyCopy.json}
+                    {...ContentfulLivePreview.getProps({
+                      entryId: id,
+                      fieldId: "bodyCopy",
+                      locale: lang,
+                    })}
+                  />
+                )}
+                {bodyCopy && preview && (
+                  <CfRichTextRenderClient
+                    lang={lang}
+                    preview={preview}
+                    richTextDocument={bodyCopy.json}
+                    {...ContentfulLivePreview.getProps({
+                      entryId: id,
+                      fieldId: "bodyCopy",
+                      locale: lang,
+                    })}
+                  />
+                )}
+                {listCopy && !preview && (
+                  <CfRichTextRenderClient
+                    lang={lang}
+                    preview={preview}
+                    richTextDocument={listCopy.json}
+                    columns={`${columns} auto`}
+                    {...ContentfulLivePreview.getProps({
+                      entryId: id,
+                      fieldId: "listCopy",
+                      locale: lang,
+                    })}
+                  />
+                )}
+                {listCopy && preview && (
                   <CfRichTextRender
                     lang={lang}
                     preview={preview}
@@ -76,18 +107,20 @@ export const CfListItem = ({
               </FlexBox>
             </Col>
             <Col size={{ xs: 12, md: 5 }}>
-              <CfImageCover
-                __typename={media.__typename}
-                id={media.id}
-                image={media.image}
-                altText={media.altText}
-                internalTitle={media.internalTitle}
-                lang={lang}
-                preview={preview}
-                coverHeight={320}
-                borderRadius={shape.borderRadius}
-                nested
-              />
+              {media && (
+                <CfImageCover
+                  __typename={media.__typename}
+                  id={media.id}
+                  image={media.image}
+                  altText={media.altText}
+                  internalTitle={media.internalTitle}
+                  lang={lang}
+                  preview={preview}
+                  coverHeight={320}
+                  borderRadius={shape.borderRadius}
+                  nested
+                />
+              )}
             </Col>
           </Row>
         </FlexBox>

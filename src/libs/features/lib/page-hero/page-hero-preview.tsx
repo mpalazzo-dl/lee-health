@@ -1,9 +1,9 @@
 import { defaultLocale } from "@aces/i18n";
-import { CfImageOverlayHeroServer } from "@aces/cf";
+import { CfImageOverlayHeroClient } from "@aces/cf";
 
 import { PageHeroProps } from "./page-hero-types";
 
-export const DefaultPageHero = ({
+export const PreviewPageHero = ({
   item,
   preview = false,
   lang = defaultLocale,
@@ -15,7 +15,7 @@ export const DefaultPageHero = ({
   switch (item.__typename) {
     case "ImageOverlayHero":
       return (
-        <CfImageOverlayHeroServer
+        <CfImageOverlayHeroClient
           id={item?.sys?.id || ""}
           preview={preview}
           lang={lang}

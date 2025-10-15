@@ -1,22 +1,15 @@
 import { defaultLocale } from "@aces/i18n";
 import {
-  CfDefaultHeroServer,
-  CfImageOverlayHeroServer,
-  CfAccordionsServer,
-  CfBannerServer,
-  CfCodeEmbedServer,
-  CfFormServer,
-  CfHeaderServer,
-  CfImageServer,
-  CfGridServer,
-  CfLockupServer,
-  CfRichTextSectionServer,
-  CfVideoEmbedServer,
-  CfTestimonialsServer,
-  CfTeamListingServer,
-  CfCalloutServer,
-  CfFeatureHighlightServer,
-  CfButtonServer,
+  CfAccordionsClient,
+  CfBannerClient,
+  CfCalloutClient,
+  CfCodeEmbedClient,
+  CfFeatureHighlightClient,
+  CfGridClient,
+  CfHeaderClient,
+  CfListItemClient,
+  CfLockupClient,
+  CfRichTextSectionClient,
 } from "@aces/cf";
 
 export const EntriesPreview = ({
@@ -31,130 +24,97 @@ export const EntriesPreview = ({
   const typename = item.__typename;
 
   switch (typename) {
-    case "DefaultHero":
-      return (
-        <CfDefaultHeroServer
-          id={item?.sys?.id || ""}
-          preview={preview}
-          lang={lang}
-        />
-      );
-    case "ImageOverlayHero":
-      return (
-        <CfImageOverlayHeroServer
-          id={item?.sys?.id || ""}
-          preview={preview}
-          lang={lang}
-        />
-      );
     case "Accordions":
       return (
-        <CfAccordionsServer
+        <CfAccordionsClient
           id={item?.sys?.id || ""}
           preview={preview}
           lang={lang}
+          key={item?.sys?.id || ""}
         />
       );
     case "Banner":
       return (
-        <CfBannerServer
+        <CfBannerClient
           id={item?.sys?.id || ""}
           preview={preview}
           lang={lang}
-        />
-      );
-    case "CodeEmbed":
-      return (
-        <CfCodeEmbedServer
-          id={item?.sys?.id || ""}
-          preview={preview}
-          lang={lang}
-        />
-      );
-    case "Form":
-      return (
-        <CfFormServer id={item?.sys?.id || ""} preview={preview} lang={lang} />
-      );
-    case "Header":
-      return (
-        <CfHeaderServer
-          id={item?.sys?.id || ""}
-          preview={preview}
-          lang={lang}
-        />
-      );
-    case "Image":
-      return (
-        <CfImageServer id={item?.sys?.id || ""} preview={preview} lang={lang} />
-      );
-    case "GridUpdated":
-      return (
-        <CfGridServer id={item?.sys?.id || ""} preview={preview} lang={lang} />
-      );
-    case "Lockup":
-      return (
-        <CfLockupServer
-          id={item?.sys?.id || ""}
-          preview={preview}
-          lang={lang}
-        />
-      );
-    case "RichTextSection":
-      return (
-        <CfRichTextSectionServer
-          id={item?.sys?.id || ""}
-          preview={preview}
-          lang={lang}
-        />
-      );
-    case "VideoEmbed":
-      return (
-        <CfVideoEmbedServer
-          id={item?.sys?.id || ""}
-          preview={preview}
-          lang={lang}
-        />
-      );
-    case "Testimonials":
-      return (
-        <CfTestimonialsServer
-          id={item?.sys?.id || ""}
-          preview={preview}
-          lang={lang}
-        />
-      );
-    case "TeamListing":
-      return (
-        <CfTeamListingServer
-          id={item?.sys?.id || ""}
-          preview={preview}
-          lang={lang}
+          key={item?.sys?.id || ""}
         />
       );
     case "Callout":
       return (
-        <CfCalloutServer
+        <CfCalloutClient
           id={item?.sys?.id || ""}
           preview={preview}
           lang={lang}
+          key={item?.sys?.id || ""}
+        />
+      );
+    case "GridUpdated":
+      return (
+        <CfGridClient
+          id={item?.sys?.id || ""}
+          preview={preview}
+          lang={lang}
+          key={item?.sys?.id || ""}
+        />
+      );
+    case "Header":
+      return (
+        <CfHeaderClient
+          id={item?.sys?.id || ""}
+          preview={preview}
+          lang={lang}
+          key={item?.sys?.id || ""}
+        />
+      );
+    case "RichTextSection":
+      return (
+        <CfRichTextSectionClient
+          id={item?.sys?.id || ""}
+          preview={preview}
+          lang={lang}
+          key={item?.sys?.id || ""}
+        />
+      );
+    case "Lockup":
+      return (
+        <CfLockupClient
+          id={item?.sys?.id || ""}
+          preview={preview}
+          lang={lang}
+          key={item?.sys?.id || ""}
+        />
+      );
+    case "ListItem":
+      return (
+        <CfListItemClient
+          id={item?.sys?.id || ""}
+          preview={preview}
+          lang={lang}
+          key={item?.sys?.id || ""}
+        />
+      );
+    case "CodeEmbed":
+      return (
+        <CfCodeEmbedClient
+          id={item?.sys?.id || ""}
+          preview={preview}
+          lang={lang}
+          key={item?.sys?.id || ""}
         />
       );
     case "FeatureHighlight":
       return (
-        <CfFeatureHighlightServer
+        <CfFeatureHighlightClient
           id={item?.sys?.id || ""}
           preview={preview}
           lang={lang}
+          key={item?.sys?.id || ""}
         />
       );
-    case "Button":
-      return (
-        <CfButtonServer
-          id={item?.sys?.id || ""}
-          preview={preview}
-          lang={lang}
-        />
-      );
+
     default:
       return null;
   }

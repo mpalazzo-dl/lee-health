@@ -5,6 +5,7 @@ import { cfClient, cfPreviewClient, ImageFragment } from "@aces/contentful";
 
 export const FeatureHighlightQuery = gql`
   ${ImageFragment}
+
   query ($id: String!, $preview: Boolean!, $locale: String) {
     featureHighlight(id: $id, preview: $preview, locale: $locale) {
       internalTitle

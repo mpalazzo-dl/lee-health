@@ -1,18 +1,18 @@
 import {
-  CfAccordionsServer,
-  CfBannerServer,
-  CfCalloutServer,
-  CfGridServer,
-  CfHeaderServer,
-  CfRichTextSectionServer,
-  CfLockupServer,
-  CfListItemServer,
-  CfCodeEmbedServer,
-  CfFeatureHighlightServer,
+  CfAccordionsClient,
+  CfBannerClient,
+  CfCalloutClient,
+  CfCodeEmbedClient,
+  CfFeatureHighlightClient,
+  CfGridClient,
+  CfHeaderClient,
+  CfListItemClient,
+  CfLockupClient,
+  CfRichTextSectionClient,
 } from "@aces/cf";
 import { PageBodyProps } from "./page-body-types";
 
-export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
+export const PreviewPageBody = ({ items, preview, lang }: PageBodyProps) => {
   if (!items) return null;
 
   return (
@@ -24,7 +24,7 @@ export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
         switch (typename) {
           case "Accordions":
             return (
-              <CfAccordionsServer
+              <CfAccordionsClient
                 id={item?.sys?.id || ""}
                 preview={preview}
                 lang={lang}
@@ -33,7 +33,7 @@ export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
             );
           case "Banner":
             return (
-              <CfBannerServer
+              <CfBannerClient
                 id={item?.sys?.id || ""}
                 preview={preview}
                 lang={lang}
@@ -42,7 +42,7 @@ export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
             );
           case "Callout":
             return (
-              <CfCalloutServer
+              <CfCalloutClient
                 id={item?.sys?.id || ""}
                 preview={preview}
                 lang={lang}
@@ -51,7 +51,7 @@ export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
             );
           case "GridUpdated":
             return (
-              <CfGridServer
+              <CfGridClient
                 id={item?.sys?.id || ""}
                 preview={preview}
                 lang={lang}
@@ -60,7 +60,7 @@ export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
             );
           case "Header":
             return (
-              <CfHeaderServer
+              <CfHeaderClient
                 id={item?.sys?.id || ""}
                 preview={preview}
                 lang={lang}
@@ -69,7 +69,7 @@ export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
             );
           case "RichTextSection":
             return (
-              <CfRichTextSectionServer
+              <CfRichTextSectionClient
                 id={item?.sys?.id || ""}
                 preview={preview}
                 lang={lang}
@@ -78,7 +78,7 @@ export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
             );
           case "Lockup":
             return (
-              <CfLockupServer
+              <CfLockupClient
                 id={item?.sys?.id || ""}
                 preview={preview}
                 lang={lang}
@@ -87,7 +87,7 @@ export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
             );
           case "ListItem":
             return (
-              <CfListItemServer
+              <CfListItemClient
                 id={item?.sys?.id || ""}
                 preview={preview}
                 lang={lang}
@@ -96,7 +96,7 @@ export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
             );
           case "CodeEmbed":
             return (
-              <CfCodeEmbedServer
+              <CfCodeEmbedClient
                 id={item?.sys?.id || ""}
                 preview={preview}
                 lang={lang}
@@ -105,7 +105,7 @@ export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
             );
           case "FeatureHighlight":
             return (
-              <CfFeatureHighlightServer
+              <CfFeatureHighlightClient
                 id={item?.sys?.id || ""}
                 preview={preview}
                 lang={lang}

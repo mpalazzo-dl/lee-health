@@ -15,6 +15,8 @@ import { CfCardProps } from "../cf-card/render";
 import { CfRichTextSectionProps } from "../cf-rich-text-section/render";
 import { CfRichTextSectionServer } from "../cf-rich-text-section";
 import { CfImageServer } from "../cf-image";
+import { CfRichTextSectionClient } from "../cf-rich-text-section/client";
+import { CfImageClient } from "../cf-image/client";
 
 export interface CfGridProps extends CfBaseComponent, Nested {
   showDividers: boolean;
@@ -138,12 +140,21 @@ export const CfGrid = ({
                             : {}
                       }
                     >
-                      <CfRichTextSectionServer
-                        id={item?.sys?.id || ""}
-                        preview={preview}
-                        lang={lang}
-                        nested={true}
-                      />
+                      {preview ? (
+                        <CfRichTextSectionClient
+                          id={item?.sys?.id || ""}
+                          preview={preview}
+                          lang={lang}
+                          nested={true}
+                        />
+                      ) : (
+                        <CfRichTextSectionServer
+                          id={item?.sys?.id || ""}
+                          preview={preview}
+                          lang={lang}
+                          nested={true}
+                        />
+                      )}
                     </Col>
                   );
                 }
@@ -160,12 +171,21 @@ export const CfGrid = ({
                           : {}
                     }
                   >
-                    <CfImageServer
-                      id={item?.sys?.id || ""}
-                      preview={preview}
-                      lang={lang}
-                      nested={true}
-                    />
+                    {preview ? (
+                      <CfImageClient
+                        id={item?.sys?.id || ""}
+                        preview={preview}
+                        lang={lang}
+                        nested={true}
+                      />
+                    ) : (
+                      <CfImageServer
+                        id={item?.sys?.id || ""}
+                        preview={preview}
+                        lang={lang}
+                        nested={true}
+                      />
+                    )}
                   </Col>
                 );
               default:

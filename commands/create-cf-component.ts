@@ -104,6 +104,26 @@ const pageBodyFilePath = join(
   "page-body",
   "page-body-default.tsx",
 );
+const previewPageBodyFilePath = join(
+  __dirname,
+  "..",
+  "src",
+  "libs",
+  "features",
+  "lib",
+  "page-body",
+  "page-body-preview.tsx",
+);
+const previewEntryFilePath = join(
+  __dirname,
+  "..",
+  "src",
+  "libs",
+  "features",
+  "lib",
+  "draft-mode",
+  "entry-preview.tsx",
+);
 
 // Contentful API Credentials
 const SPACE_ID = process.env.NEXT_PUBLIC_CF_SPACE!;
@@ -395,7 +415,7 @@ export const Cf${reactCasedName} = ({
     </Box>
   );
 };`,
-    "services.tsx": `import { gql } from "@apollo/client";
+    "services.ts": `import { gql } from "@apollo/client";
 
 import { defaultLocale } from "@aces/i18n";
 import { cfClient, cfPreviewClient } from "@aces/contentful";
@@ -435,6 +455,43 @@ export const fetch${reactCasedName}Data = async (
 export const ${reactCasedName}Skeleton = () => {
   return <Skeleton width={"100%"} height={280} />;
 };`,
+    "client.tsx": `"use client";
+
+import { useEffect, useState } from "react";
+import { useContentfulLiveUpdates } from "@contentful/live-preview/react";
+
+import type { CfFetchById } from "@aces/types";
+
+import { Cf${reactCasedName} } from "./render";
+import { fetch${reactCasedName}Data } from "./services";
+import { ${reactCasedName}Skeleton } from "./skeleton";
+
+export const Cf${reactCasedName}Client = ({ id, preview, lang }: CfFetchById) => {
+  const [data, setData] = useState<any>(null);
+
+  useEffect(() => {
+    fetch${reactCasedName}Data(id, preview, lang)
+      .then(setData)
+      .catch((err) => {
+        console.error("Client fetch failed:", err);
+      });
+  }, [id, preview, lang]);
+
+  const updatedData = useContentfulLiveUpdates(data);
+
+  if (!updatedData) return <${reactCasedName}Skeleton />;
+
+  return (
+    <Cf${reactCasedName}
+      internalTitle={updatedData.internalTitle}
+      //TODO: Add more props here
+      __typename={updatedData.__typename}
+      id={id}
+      lang={lang}
+      preview={preview}
+    />
+  );
+};`,
   };
 
   // Create component directory & files
@@ -446,7 +503,7 @@ export const ${reactCasedName}Skeleton = () => {
   });
 
   // Update index.ts exports
-  const exportLines = `\nexport * from "./lib/${componentDir}";\nexport * from "./lib/${componentDir}/render";\nexport * from "./lib/${componentDir}/services";\nexport * from "./lib/${componentDir}/skeleton";\n`;
+  const exportLines = `\nexport * from "./lib/${componentDir}";\nexport * from "./lib/${componentDir}/render";\nexport * from "./lib/${componentDir}/services";\nexport * from "./lib/${componentDir}/skeleton";\nexport * from "./lib/${componentDir}/client";\n`;
 
   if (!existsSync(indexFilePath)) {
     writeFileSync(indexFilePath, exportLines);
@@ -558,6 +615,132 @@ const updateDefaultPageBodyComponent = (reactCasedName: string) => {
   }
 };
 
+// Function to update Preview Page Body component
+const updatePreviewPageBodyComponent = (reactCasedName: string) => {
+  if (!existsSync(previewPageBodyFilePath)) {
+    console.error(
+      "❌ Preview Page Body file not found. Manually add the component.",
+    );
+    return;
+  }
+
+  try {
+    let fileContent = readFileSync(previewPageBodyFilePath, "utf8");
+
+    // Update the import statement
+    const importStatement = `Cf${reactCasedName}Client`;
+    if (!fileContent.includes(importStatement)) {
+      console.log(
+        `🚀 Adding "${reactCasedName}" to Preview Page Body imports...`,
+      );
+
+      const importRegex = /import \{([\s\S]*?)\} from "@aces\/cf";/;
+      fileContent = fileContent.replace(importRegex, (match, group) => {
+        const cleanedGroup = group.trim().replace(/,\s*$/, "");
+        return `import {\n  ${cleanedGroup},\n  ${importStatement}\n} from "@aces/cf";`;
+      });
+
+      console.log(`✅ Added "${reactCasedName}" to imports.`);
+    } else {
+      console.log(
+        `ℹ️ Component "${reactCasedName}" is already in the imports.`,
+      );
+    }
+
+    // Update the switch statement
+    if (!fileContent.includes(`case "${reactCasedName}":`)) {
+      console.log(
+        `🚀 Adding "${reactCasedName}" to the Preview Page Body switch statement...`,
+      );
+
+      const switchCaseRegex = /(\s+default:\s+return null;)/;
+      const newCase = `\n          case "${reactCasedName}":\n            return (\n              <Cf${reactCasedName}Client\n                id={item?.sys?.id || ""}\n                preview={preview}\n                lang={lang}\n                key={index}\n              />\n            );\n`;
+
+      fileContent = fileContent.replace(switchCaseRegex, newCase + "$1");
+
+      console.log(`✅ Added "${reactCasedName}" to switch statement.`);
+    } else {
+      console.log(
+        `ℹ️ Component "${reactCasedName}" is already in the switch statement.`,
+      );
+    }
+
+    fileContent = fileContent
+      .replace(/\n{3,}/g, "\n\n")
+      .replace(/,(\s*})/g, "$1");
+
+    writeFileSync(previewPageBodyFilePath, fileContent, "utf8");
+    console.log(
+      `✅ Successfully updated Preview Page Body with "${reactCasedName}".`,
+    );
+  } catch (error) {
+    console.error("❌ Error updating Preview Page Body:", error);
+  }
+};
+
+// Function to update Preview Entry component
+const updatePreviewEntryComponent = (reactCasedName: string) => {
+  if (!existsSync(previewEntryFilePath)) {
+    console.error(
+      "❌ Preview Page Body file not found. Manually add the component.",
+    );
+    return;
+  }
+
+  try {
+    let fileContent = readFileSync(previewEntryFilePath, "utf8");
+
+    // Update the import statement
+    const importStatement = `Cf${reactCasedName}Client`;
+    if (!fileContent.includes(importStatement)) {
+      console.log(
+        `🚀 Adding "${reactCasedName}" to Preview Page Body imports...`,
+      );
+
+      const importRegex = /import \{([\s\S]*?)\} from "@aces\/cf";/;
+      fileContent = fileContent.replace(importRegex, (match, group) => {
+        const cleanedGroup = group.trim().replace(/,\s*$/, "");
+        return `import {\n  ${cleanedGroup},\n  ${importStatement}\n} from "@aces/cf";`;
+      });
+
+      console.log(`✅ Added "${reactCasedName}" to imports.`);
+    } else {
+      console.log(
+        `ℹ️ Component "${reactCasedName}" is already in the imports.`,
+      );
+    }
+
+    // Update the switch statement
+    if (!fileContent.includes(`case "${reactCasedName}":`)) {
+      console.log(
+        `🚀 Adding "${reactCasedName}" to the Preview Page Body switch statement...`,
+      );
+
+      const switchCaseRegex = /(\s+default:\s+return null;)/;
+      const newCase = `\n          case "${reactCasedName}":\n            return (\n              <Cf${reactCasedName}Client\n                id={item?.sys?.id || ""}\n                preview={preview}\n                lang={lang}\n                key={index}\n              />\n            );\n`;
+
+      fileContent = fileContent.replace(switchCaseRegex, newCase + "$1");
+
+      console.log(`✅ Added "${reactCasedName}" to switch statement.`);
+    } else {
+      console.log(
+        `ℹ️ Component "${reactCasedName}" is already in the switch statement.`,
+      );
+    }
+
+    fileContent = fileContent
+      .replace(/\n{3,}/g, "\n\n")
+      .replace(/,(\s*})/g, "$1");
+
+    writeFileSync(previewEntryFilePath, fileContent, "utf8");
+    console.log(
+      `✅ Successfully updated Preview Page Body with "${reactCasedName}".`,
+    );
+  } catch (error) {
+    console.error("❌ Error updating Preview Page Body:", error);
+  }
+};
+
 // 🚀 Run the script
 (async () => {
   const { createContentModel, componentType, addToPageBody } =
@@ -574,6 +757,8 @@ const updateDefaultPageBodyComponent = (reactCasedName: string) => {
     await updatePageBodyValidation(camelCasedName);
     updateDefaultPageBodyQuery(reactCasedName);
     updateDefaultPageBodyComponent(reactCasedName);
+    updatePreviewPageBodyComponent(reactCasedName);
+    updatePreviewEntryComponent(reactCasedName);
   }
 
   console.log(`🎉 Component "${componentDir}" scaffold created successfully!`);

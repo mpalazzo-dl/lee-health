@@ -6,6 +6,7 @@ import {
   CfFeatureHighlightClient,
   CfGridClient,
   CfHeaderClient,
+  CfImageClient,
   CfListItemClient,
   CfLockupClient,
   CfRichTextSectionClient,
@@ -106,6 +107,15 @@ export const PreviewPageBody = ({ items, preview, lang }: PageBodyProps) => {
           case "FeatureHighlight":
             return (
               <CfFeatureHighlightClient
+                id={item?.sys?.id || ""}
+                preview={preview}
+                lang={lang}
+                key={item?.sys?.id || index}
+              />
+            );
+          case "Image":
+            return (
+              <CfImageClient
                 id={item?.sys?.id || ""}
                 preview={preview}
                 lang={lang}

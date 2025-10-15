@@ -9,6 +9,7 @@ import {
   CfListItemServer,
   CfCodeEmbedServer,
   CfFeatureHighlightServer,
+  CfImageServer,
 } from "@aces/cf";
 import { PageBodyProps } from "./page-body-types";
 
@@ -106,6 +107,15 @@ export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
           case "FeatureHighlight":
             return (
               <CfFeatureHighlightServer
+                id={item?.sys?.id || ""}
+                preview={preview}
+                lang={lang}
+                key={item?.sys?.id || index}
+              />
+            );
+          case "Image":
+            return (
+              <CfImageServer
                 id={item?.sys?.id || ""}
                 preview={preview}
                 lang={lang}

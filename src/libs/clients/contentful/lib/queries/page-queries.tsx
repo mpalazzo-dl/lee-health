@@ -76,6 +76,16 @@ export const DefaultPageBodyQuery = gql`
               id
             }
           }
+          ... on LiteLockup {
+            sys {
+              id
+            }
+          }
+          ... on LiteHero {
+            sys {
+              id
+            }
+          }
           __typename
         }
       }
@@ -88,6 +98,11 @@ export const DefaultPageHeroQuery = gql`
     page(id: $id, preview: $preview, locale: $locale) {
       pageHero {
         ... on ImageOverlayHero {
+          sys {
+            id
+          }
+        }
+        ... on LiteHero {
           sys {
             id
           }

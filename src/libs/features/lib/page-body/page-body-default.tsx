@@ -10,6 +10,8 @@ import {
   CfCodeEmbedServer,
   CfFeatureHighlightServer,
   CfImageServer,
+  CfLiteLockupServer,
+  CfLiteHeroServer
 } from "@aces/cf";
 import { PageBodyProps } from "./page-body-types";
 
@@ -120,6 +122,24 @@ export const DefaultPageBody = ({ items, preview, lang }: PageBodyProps) => {
                 preview={preview}
                 lang={lang}
                 key={item?.sys?.id || index}
+              />
+            );
+          case "LiteLockup":
+            return (
+              <CfLiteLockupServer
+                id={item?.sys?.id || ""}
+                preview={preview}
+                lang={lang}
+                key={index}
+              />
+            );
+          case "LiteHero":
+            return (
+              <CfLiteHeroServer
+                id={item?.sys?.id || ""}
+                preview={preview}
+                lang={lang}
+                key={index}
               />
             );
 

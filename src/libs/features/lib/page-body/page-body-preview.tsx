@@ -10,6 +10,8 @@ import {
   CfListItemClient,
   CfLockupClient,
   CfRichTextSectionClient,
+  CfLiteLockupClient,
+  CfLiteHeroClient
 } from "@aces/cf";
 import { PageBodyProps } from "./page-body-types";
 
@@ -120,6 +122,24 @@ export const PreviewPageBody = ({ items, preview, lang }: PageBodyProps) => {
                 preview={preview}
                 lang={lang}
                 key={item?.sys?.id || index}
+              />
+            );
+          case "LiteLockup":
+            return (
+              <CfLiteLockupClient
+                id={item?.sys?.id || ""}
+                preview={preview}
+                lang={lang}
+                key={index}
+              />
+            );
+          case "LiteHero":
+            return (
+              <CfLiteHeroClient
+                id={item?.sys?.id || ""}
+                preview={preview}
+                lang={lang}
+                key={index}
               />
             );
 

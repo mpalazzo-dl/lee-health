@@ -10,6 +10,8 @@ import {
   CfListItemClient,
   CfLockupClient,
   CfRichTextSectionClient,
+  CfLiteLockupClient,
+  CfLiteHeroClient,
 } from "@aces/cf";
 
 export const EntriesPreview = ({
@@ -108,6 +110,24 @@ export const EntriesPreview = ({
     case "FeatureHighlight":
       return (
         <CfFeatureHighlightClient
+          id={item?.sys?.id || ""}
+          preview={preview}
+          lang={lang}
+          key={item?.sys?.id || ""}
+        />
+      );
+    case "LiteLockup":
+      return (
+        <CfLiteLockupClient
+          id={item?.sys?.id || ""}
+          preview={preview}
+          lang={lang}
+          key={item?.sys?.id || ""}
+        />
+      );
+    case "LiteHero":
+      return (
+        <CfLiteHeroClient
           id={item?.sys?.id || ""}
           preview={preview}
           lang={lang}

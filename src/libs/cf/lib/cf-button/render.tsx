@@ -118,7 +118,7 @@ export const CfButton = ({
   }
 };
 
-const CfButtonUi = ({
+export const CfButtonUi = ({
   internalTitle,
   title,
   style,
